@@ -45,7 +45,7 @@ class SyntaxHighlightRenderer < Redcarpet::Render::HTML
 
     def preprocess(markdown_doc)
         nested_md = Redcarpet::Markdown.new(self, RENDER_OPTIONS)
-        markdown_doc.gsub!(/^> \[!(?<type>NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]$\n(?<content>^> [\s\S]*?^$)/) do | match |
+        markdown_doc.gsub!(/^> \[!(?<type>NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]$\n(?<content>^> [\s\S]*?^$)/) do
             type = $~[:type].downcase.to_sym
             content = nested_md.render($~[:content].gsub(/^> /, ''))
             %Q(
@@ -60,7 +60,5 @@ class SyntaxHighlightRenderer < Redcarpet::Render::HTML
 end
 
 md_to_html = Redcarpet::Markdown.new(SyntaxHighlightRenderer, SyntaxHighlightRenderer::RENDER_OPTIONS)
-
 input_markdown = ARGF.read
-
 puts md_to_html.render(input_markdown)
